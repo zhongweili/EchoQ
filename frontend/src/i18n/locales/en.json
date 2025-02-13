@@ -1,0 +1,149 @@
+{
+    "dashboard": {
+        "title": "My Events",
+        "createEvent": "Create New Event",
+        "modal": {
+            "title": "Create New Event",
+            "eventTitle": "Event Title",
+            "eventTitlePlaceholder": "Please enter event title",
+            "eventDate": "Event Date",
+            "audiencePeak": "Expected Peak Audience",
+            "audiencePeakPlaceholder": "Please enter expected peak audience",
+            "create": "Create Event"
+        },
+        "validation": {
+            "fillAllFields": "Please fill in all required fields"
+        },
+        "toast": {
+            "createSuccess": "Event created successfully",
+            "createSuccessDesc": "You can view event details below",
+            "shareComingSoon": "Sharing feature coming soon",
+            "statsComingSoon": "Statistics feature coming soon",
+            "pleaseWait": "Please stay tuned"
+        },
+        "card": {
+            "date": "Date",
+            "audiencePeak": "Expected Peak Audience",
+            "share": "Share",
+            "stats": "Stats"
+        },
+        "share": {
+            "title": "Share Event",
+            "copied": "Link copied to clipboard",
+            "copyLink": "Copy Link"
+        }
+    },
+    "common": {
+        "edit": "Edit",
+        "delete": "Delete",
+        "save": "Save",
+        "cancel": "Cancel",
+        "submit": "Submit",
+        "back": "Back",
+        "notFound": "Page Not Found",
+        "notFoundMessage": "The page you are looking for does not exist.",
+        "loading": "Loading..."
+    },
+    "navbar": {
+        "home": "Home",
+        "items": "Items",
+        "admin": "Admin",
+        "login": "Login",
+        "logout": "Logout",
+        "signup": "Sign Up"
+    },
+    "items": {
+        "title": "Items",
+        "editItem": "Edit Item",
+        "addItem": "Add Item",
+        "name": "Name",
+        "description": "Description",
+        "price": "Price"
+    },
+    "admin": {
+        "users": "Users",
+        "editUser": "Edit User",
+        "addUser": "Add User",
+        "username": "Username",
+        "email": "Email",
+        "password": "Password",
+        "role": "Role"
+    },
+    "event": {
+        "title": "Event",
+        "question": {
+            "submit": "Submit Question",
+            "submitSuccess": "Question submitted successfully",
+            "submitError": "Error submitting question",
+            "yourQuestion": "Your Question",
+            "placeholder": "Type your question here...",
+            "yourName": "Your name (optional)",
+            "askAnonymously": "Ask Anonymously",
+            "ask": "Ask",
+            "reply": "Reply",
+            "followUp": "Follow-up",
+            "followUpSuccess": "Follow-up submitted successfully",
+            "followUpError": "Error submitting follow-up",
+            "loadFollowUpsError": "Error loading follow-up questions",
+            "yourFollowUp": "Your Follow-up",
+            "followUpPlaceholder": "Write your follow-up here..."
+        },
+        "error": {
+            "fetchData": "Error fetching data",
+            "likeQuestion": "Error liking question"
+        }
+    },
+    "landing": {
+        "hero": {
+            "badge": "Live Q&A Platform",
+            "titleFirstLine": "Engage Your Audience in Real-Time with",
+            "productName": "EchoQ",
+            "subtitle": "Transform your presentations into interactive experiences. Connect with your audience through live Q&A sessions.",
+            "getStarted": "Get Started",
+            "watchDemo": "Watch Demo"
+        },
+        "features": {
+            "title": "Everything You Need for Perfect Q&A Sessions",
+            "subtitle": "Powerful features designed to make your Q&A sessions more engaging and effective.",
+            "liveQuestions": {
+                "title": "Live Questions",
+                "description": "Enable real-time questions from your audience during presentations."
+            },
+            "audienceEngagement": {
+                "title": "Audience Engagement",
+                "description": "Keep your audience engaged with interactive polling and reactions."
+            },
+            "instantResponses": {
+                "title": "Instant Responses",
+                "description": "Respond to questions instantly and maintain conversation flow."
+            },
+            "analytics": {
+                "title": "Analytics",
+                "description": "Track engagement and gather insights from your Q&A sessions."
+            }
+        },
+        "howItWorks": {
+            "title": "How EchoQ Works",
+            "subtitle": "Get started with EchoQ in three simple steps",
+            "steps": {
+                "createSession": {
+                    "title": "Create Your Session",
+                    "description": "Set up your Q&A session in minutes with our intuitive interface."
+                },
+                "shareWithAudience": {
+                    "title": "Share With Audience",
+                    "description": "Invite participants with a simple link or QR code."
+                },
+                "engageRealTime": {
+                    "title": "Engage in Real-Time",
+                    "description": "Interact with your audience through live questions and polls."
+                }
+            }
+        },
+        "cta": {
+            "title": "Ready to Transform Your Q&A Sessions?",
+            "subtitle": "Join thousands of presenters who use EchoQ to create engaging Q&A experiences.",
+            "button": "Start Free Trial"
+        }
+    }
+}

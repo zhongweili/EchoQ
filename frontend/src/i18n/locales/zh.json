@@ -1,0 +1,242 @@
+{
+    "dashboard": {
+        "title": "我的活动",
+        "createEvent": "创建新活动",
+        "modal": {
+            "title": "创建新活动",
+            "eventTitle": "活动标题",
+            "eventTitlePlaceholder": "请输入活动标题",
+            "eventDate": "活动日期",
+            "audiencePeak": "预计观众峰值",
+            "audiencePeakPlaceholder": "请输入预计观众峰值",
+            "create": "创建活动"
+        },
+        "validation": {
+            "fillAllFields": "请填写所有必填项"
+        },
+        "toast": {
+            "createSuccess": "活动创建成功",
+            "createSuccessDesc": "您可以在下方查看活动详情",
+            "shareComingSoon": "分享功能即将推出",
+            "statsComingSoon": "统计功能即将推出",
+            "pleaseWait": "敬请期待"
+        },
+        "card": {
+            "date": "日期",
+            "audiencePeak": "预计观众峰值",
+            "share": "分享",
+            "stats": "统计"
+        },
+        "share": {
+            "title": "分享活动",
+            "copied": "链接已复制到剪贴板",
+            "copyLink": "复制链接"
+        }
+    },
+    "common": {
+        "edit": "编辑",
+        "delete": "删除",
+        "save": "保存",
+        "cancel": "取消",
+        "submit": "提交",
+        "back": "返回",
+        "notFound": "页面未找到",
+        "notFoundMessage": "您访问的页面不存在。",
+        "loading": "加载中...",
+        "dashboard": "首页",
+        "items": "商品",
+        "userSettings": "用户设置",
+        "admin": "管理",
+        "changePassword": "修改密码",
+        "currentPassword": "当前密码",
+        "confirmPassword": "确认密码",
+        "setPassword": "设置密码",
+        "passwordUpdatedSuccessfully": "密码更新成功",
+        "password": "密码",
+        "appearance": "外观",
+        "lightMode": "浅色模式",
+        "darkMode": "深色模式",
+        "systemDefault": "系统默认",
+        "userInformation": "用户信息",
+        "fullName": "全名",
+        "email": "邮箱",
+        "emailRequired": "邮箱是必填项",
+        "deleteAccount": "删除账户",
+        "confirmationRequired": "确认要求",
+        "confirm": "确认",
+        "accountCancel": "取消",
+        "accountDeletedSuccessfully": "账户已成功删除",
+        "accountDelete": "删除账户",
+        "myProfile": "我的资料",
+        "dangerZone": "危险区域",
+        "logOut": "退出",
+        "usersManagement": "用户管理",
+        "status": "状态",
+        "actions": "操作",
+        "role": "角色",
+        "users": "用户",
+        "editUser": "编辑用户",
+        "addUser": "添加用户",
+        "username": "用户名",
+        "description": "描述",
+        "id": "ID",
+        "title": "标题",
+        "itemsManagement": "商品管理",
+        "name": "名称",
+        "price": "价格",
+        "editItem": "编辑商品",
+        "addItem": "添加商品",
+        "loggedInAs": "已登录为",
+        "home": "首页",
+        "login": "登录",
+        "logout": "退出",
+        "signup": "注册"
+    },
+    "navbar": {
+        "home": "首页",
+        "items": "商品",
+        "admin": "管理",
+        "login": "登录",
+        "logout": "退出",
+        "signup": "注册"
+    },
+    "items": {
+        "title": "商品",
+        "editItem": "编辑商品",
+        "addItem": "添加商品",
+        "name": "名称",
+        "description": "描述",
+        "price": "价格"
+    },
+    "admin": {
+        "users": "用户",
+        "editUser": "编辑用户",
+        "addUser": "添加用户",
+        "username": "用户名",
+        "email": "邮箱",
+        "password": "密码",
+        "role": "角色"
+    },
+    "event": {
+        "title": "活动",
+        "question": {
+            "submit": "提交问题",
+            "submitSuccess": "问题提交成功",
+            "submitError": "提交问题时出错",
+            "yourQuestion": "您的问题",
+            "placeholder": "在这里输入您的问题...",
+            "yourName": "您的名字（可选）",
+            "askAnonymously": "匿名提问",
+            "ask": "提问",
+            "reply": "回复",
+            "followUp": "追问",
+            "followUpSuccess": "追问提交成功",
+            "followUpError": "提交追问时出错",
+            "loadFollowUpsError": "加载追问时出错",
+            "yourFollowUp": "您的追问",
+            "followUpPlaceholder": "在这里输入您的追问..."
+        },
+        "error": {
+            "fetchData": "获取数据时出错",
+            "likeQuestion": "点赞问题时出错"
+        }
+    },
+    "auth": {
+        "signup": {
+            "title": "注册",
+            "fullName": "用户名",
+            "fullNameRequired": "请输入用户名",
+            "email": "邮箱",
+            "emailRequired": "请输入邮箱",
+            "password": "密码",
+            "confirmPassword": "确认密码",
+            "submit": "注册",
+            "alreadyHaveAccount": "已有账号？",
+            "login": "登录"
+        },
+        "login": {
+            "title": "登录",
+            "email": "邮箱",
+            "emailRequired": "请输入邮箱",
+            "password": "密码",
+            "passwordRequired": "请输入密码",
+            "submit": "登录",
+            "forgotPassword": "忘记密码？",
+            "noAccount": "还没有账号？",
+            "signup": "注册",
+            "showPassword": "显示密码",
+            "hidePassword": "隐藏密码"
+        },
+        "recoverPassword": {
+            "title": "找回密码",
+            "description": "我们将向注册邮箱发送重置密码链接",
+            "email": "邮箱",
+            "emailRequired": "请输入邮箱",
+            "submit": "继续",
+            "emailSent": "邮件已发送",
+            "emailSentDescription": "我们已向您的邮箱发送了重置密码链接"
+        },
+        "resetPassword": {
+            "title": "重置密码",
+            "description": "请输入并确认您的新密码",
+            "newPassword": "新密码",
+            "confirmPassword": "确认密码",
+            "submit": "重置密码",
+            "success": "成功！",
+            "successDescription": "密码已更新成功"
+        }
+    },
+    "landing": {
+        "hero": {
+            "badge": "实时问答平台",
+            "titleFirstLine": "实时问答，激发互动",
+            "productName": "问集",
+            "subtitle": "通过实时问答环节，与您的观众建立更紧密的联系。让演讲不再是单向交流，而是充满活力的对话。",
+            "getStarted": "立即开始",
+            "watchDemo": "观看演示"
+        },
+        "features": {
+            "title": "完美问答体验的必备功能",
+            "subtitle": "强大的功能设计，让您的问答环节更具吸引力和效果。",
+            "liveQuestions": {
+                "title": "实时提问",
+                "description": "在演讲过程中启用实时观众提问功能。"
+            },
+            "audienceEngagement": {
+                "title": "观众互动",
+                "description": "通过互动投票和反馈保持观众的参与度。"
+            },
+            "instantResponses": {
+                "title": "即时回应",
+                "description": "快速回复问题，保持对话流畅。"
+            },
+            "analytics": {
+                "title": "数据分析",
+                "description": "追踪互动数据，获取问答环节的深入见解。"
+            }
+        },
+        "howItWorks": {
+            "title": "问集使用方法",
+            "subtitle": "三个简单步骤，开启互动之旅",
+            "steps": {
+                "createSession": {
+                    "title": "创建会话",
+                    "description": "使用直观的界面，几分钟内完成设置。"
+                },
+                "shareWithAudience": {
+                    "title": "分享给观众",
+                    "description": "通过简单的链接或二维码邀请参与者。"
+                },
+                "engageRealTime": {
+                    "title": "实时互动",
+                    "description": "通过实时问答和投票与观众互动。"
+                }
+            }
+        },
+        "cta": {
+            "title": "准备好提升您的问答环节了吗？",
+            "subtitle": "加入数千名使用问集创建精彩问答体验的演讲者行列",
+            "button": "开始免费试用"
+        }
+    }
+}
