@@ -6,7 +6,7 @@ router = APIRouter(tags=["websockets"])
 
 
 @router.websocket("/ws/events/{event_id}")
-async def websocket_endpoint(websocket: WebSocket, event_id: str):
+async def websocket_endpoint(websocket: WebSocket, event_id: str) -> None:
     try:
         await websocket.accept()
         await manager.connect(websocket, event_id)

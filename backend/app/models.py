@@ -211,9 +211,9 @@ class QuestionCreate(QuestionBase):
 
 class QuestionUpdate(QuestionBase):
     title: str | None = Field(default=None, max_length=255)
-    content: str | None = None
-    position: int | None = None
-    pinned: bool | None = None
+    content: str = ""
+    position: int = 0
+    pinned: bool = False
 
 
 class QuestionPublic(QuestionBase):

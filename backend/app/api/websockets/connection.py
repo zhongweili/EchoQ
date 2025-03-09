@@ -7,15 +7,15 @@ from fastapi import WebSocket
 
 
 class ConnectionManager:
-    def __init__(self):
+    def __init__(self) -> None:
         self._connections: dict[str, set[WebSocket]] = {}
 
-    async def connect(self, websocket: WebSocket, event_id: str):
+    async def connect(self, websocket: WebSocket, event_id: str) -> None:
         if event_id not in self._connections:
             self._connections[event_id] = set()
         self._connections[event_id].add(websocket)
 
-    def disconnect(self, websocket: WebSocket, event_id: str):
+    def disconnect(self, websocket: WebSocket, event_id: str) -> None:
         if event_id in self._connections:
             self._connections[event_id].discard(websocket)
             if not self._connections[event_id]:
@@ -30,7 +30,7 @@ class ConnectionManager:
             return obj.model_dump()
         raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
 
-    async def broadcast(self, event_id: str, message: dict):
+    async def broadcast(self, event_id: str, message: dict[str, Any]) -> None:
         if event_id not in self._connections:
             return
 

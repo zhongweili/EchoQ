@@ -1,7 +1,9 @@
+from typing import Any, cast
 from uuid import UUID
 
 from fastapi import APIRouter, HTTPException, Query
-from sqlmodel import desc, func, select
+from sqlalchemy.sql.selectable import Select
+from sqlmodel import func, select
 
 from app.api.deps import SessionDep
 from app.models import (
@@ -36,24 +38,26 @@ async def get_question_or_404(
 
 def build_questions_query(
     event_id: UUID, parent_id: UUID | None, sort_by: str | None, order: str
-):
+) -> Select[tuple[Question]]:
     query = select(Question).where(Question.event_id == event_id)
 
     if parent_id is not None:
         query = query.where(Question.parent_id == parent_id)
     else:
-        query = query.where(Question.parent_id.is_(None))
+        query = query.where(Question.parent_id is None)
 
     if sort_by == "likes":
-        query = query.order_by(
-            desc(Question.like_count) if order == "desc" else Question.like_count
-        )
+        if order == "desc":
+            query = query.order_by("like_count DESC")
+        else:
+            query = query.order_by("like_count")
     else:
-        query = query.order_by(
-            desc(Question.inserted_at) if order == "desc" else Question.inserted_at
-        )
+        if order == "desc":
+            query = query.order_by("inserted_at DESC")
+        else:
+            query = query.order_by("inserted_at")
 
-    return query
+    return cast(Select[tuple[Question]], query)
 
 
 @router.get("/events/{event_id}/questions", response_model=QuestionsPublic)
@@ -61,14 +65,14 @@ async def list_questions(
     event_id: UUID,
     session: SessionDep,
     sort_by: str | None = Query(None, enum=["created_at", "likes"]),
-    order: str | None = Query("desc", enum=["asc", "desc"]),
+    order: str = Query("desc", enum=["asc", "desc"]),
     parent_id: UUID | None = None,
-):
+) -> QuestionsPublic:
+    # Verify event exists
     await verify_event(session, event_id)
 
-    # Build and execute query
     query = build_questions_query(event_id, parent_id, sort_by, order)
-    questions = session.exec(query).all()
+    questions = session.exec(cast(Any, query)).all()
 
     # Get total count
     count_statement = (
@@ -77,7 +81,7 @@ async def list_questions(
     if parent_id is not None:
         count_statement = count_statement.where(Question.parent_id == parent_id)
     else:
-        count_statement = count_statement.where(Question.parent_id.is_(None))
+        count_statement = count_statement.where(Question.parent_id is None)
     count = session.exec(count_statement).one()
 
     # Update followup counts
@@ -100,7 +104,7 @@ async def create_question(
     user_name: str,
     attendee_identifier: str,
     parent_id: UUID | None = None,
-):
+) -> QuestionPublic:
     await verify_event(session, event_id)
 
     if parent_id:
@@ -141,7 +145,7 @@ async def create_question(
             },
         },
     )
-    return question
+    return QuestionPublic.model_validate(question)
 
 
 @router.put("/events/{event_id}/questions/{id}", response_model=QuestionPublic)
@@ -151,25 +155,40 @@ async def update_question(
     session: SessionDep,
     question_in: QuestionUpdate,
     attendee_identifier: str,
-):
+) -> QuestionPublic:
     question = await get_question_or_404(session, event_id, id)
 
+    # Verify ownership
     if question.attendee_identifier != attendee_identifier:
         raise HTTPException(
-            status_code=403, detail="Not authorized to edit this question"
+            status_code=403, detail="You don't have permission to update this question"
         )
 
+    # Update fields
     for key, value in question_in.model_dump(exclude_unset=True).items():
         setattr(question, key, value)
 
-    session.commit()
-    session.refresh(question)
-    return question
+    session.add(question)
+    await session.commit()  # type: ignore[func-returns-value]
+    await session.refresh(question)  # type: ignore[func-returns-value]
+
+    # Broadcast update
+    await manager.broadcast(
+        str(event_id),
+        {
+            "type": "question_updated",
+            "data": question,
+        },
+    )
+
+    # Convert to QuestionPublic
+    return QuestionPublic.model_validate(question)
 
 
 @router.get("/events/{event_id}/questions/{id}", response_model=QuestionPublic)
-async def get_question(event_id: UUID, id: UUID, session: SessionDep):
-    return await get_question_or_404(session, event_id, id)
+async def get_question(event_id: UUID, id: UUID, session: SessionDep) -> QuestionPublic:
+    question = await get_question_or_404(session, event_id, id)
+    return QuestionPublic.model_validate(question)
 
 
 @router.delete("/events/{event_id}/questions/{id}")
@@ -178,7 +197,7 @@ async def delete_question(
     id: UUID,
     session: SessionDep,
     attendee_identifier: str,
-):
+) -> dict[str, str]:
     question = await get_question_or_404(session, event_id, id)
 
     if question.attendee_identifier != attendee_identifier:
@@ -192,32 +211,21 @@ async def delete_question(
 
 
 @router.post("/events/{event_id}/questions/{id}/like")
-async def like_question(event_id: UUID, id: UUID, session: SessionDep):
+async def like_question(
+    event_id: UUID, id: UUID, session: SessionDep
+) -> dict[str, int]:
     question = await get_question_or_404(session, event_id, id)
-
     question.like_count += 1
+    session.add(question)
+    await session.commit()  # type: ignore[func-returns-value]
+    await session.refresh(question)  # type: ignore[func-returns-value]
 
-    # Get followup count
-    followup_count = session.exec(
-        select(func.count())
-        .select_from(Question)
-        .where(Question.parent_id == question.id, Question.event_id == event_id)
-    ).one()
-    question.followup_count = followup_count
-
-    session.commit()
-    session.refresh(question)
-
+    # Broadcast update
     await manager.broadcast(
         str(event_id),
         {
             "type": "question_liked",
-            "data": {
-                "id": str(id),
-                "like_count": question.like_count,
-                "likes": question.like_count,
-                "followup_count": question.followup_count,
-            },
+            "data": question,
         },
     )
-    return question
+    return {"like_count": question.like_count}

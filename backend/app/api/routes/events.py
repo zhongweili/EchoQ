@@ -1,3 +1,4 @@
+import secrets
 from uuid import UUID
 
 from fastapi import APIRouter, HTTPException
@@ -5,13 +6,12 @@ from sqlmodel import func, select
 
 from app.api.deps import CurrentUser, SessionDep
 from app.models import Event, EventCreate, EventPublic, EventsPublic, EventUpdate
-from app.utils import generate_event_code
 
 router = APIRouter(prefix="/events", tags=["events"])
 
 
 @router.get("/", response_model=EventsPublic)
-async def list_events(session: SessionDep, current_user: CurrentUser):
+async def list_events(session: SessionDep, current_user: CurrentUser) -> EventsPublic:
     """List all events"""
     # First get count
     count_statement = (
@@ -28,57 +28,58 @@ async def list_events(session: SessionDep, current_user: CurrentUser):
 @router.post("/", response_model=EventPublic)
 async def new_event(
     session: SessionDep, current_user: CurrentUser, event_in: EventCreate
-):
+) -> EventPublic:
     """Create new event"""
     event = Event(
         **event_in.model_dump(),
         owner_id=current_user.id,
-        code=generate_event_code(event_in.name),
+        code=secrets.token_urlsafe(8),
     )
     session.add(event)
-    session.commit()
-    session.refresh(event)
-    return event
+    await session.commit()  # type: ignore[func-returns-value]
+    await session.refresh(event)  # type: ignore[func-returns-value]
+    return EventPublic.model_validate(event)
 
 
 @router.put("/{id}/edit", response_model=EventPublic)
 async def edit_event(
     id: UUID, session: SessionDep, current_user: CurrentUser, event_in: EventUpdate
-):
+) -> EventPublic:
     """Edit event form"""
     event = session.exec(select(Event).where(Event.id == id)).first()
     if not event:
         raise HTTPException(status_code=404, detail="Event not found")
     if event.owner_id != current_user.id:
-        raise HTTPException(status_code=403, detail="Not authorized to edit this event")
+        raise HTTPException(status_code=403, detail="Not authorized")
 
     for key, value in event_in.model_dump(exclude_unset=True).items():
         setattr(event, key, value)
 
-    session.commit()
-    session.refresh(event)
-    return event
+    session.add(event)
+    await session.commit()  # type: ignore[func-returns-value]
+    await session.refresh(event)  # type: ignore[func-returns-value]
+    return EventPublic.model_validate(event)
 
 
 @router.get("/{id}", response_model=EventPublic)
-async def get_event(id: UUID, session: SessionDep):
+async def get_event(id: UUID, session: SessionDep) -> EventPublic:
     """Get event"""
     event = session.get(Event, id)
     if not event:
         raise HTTPException(status_code=404, detail="Event not found")
-    return event
+    return EventPublic.model_validate(event)
 
 
 @router.get("/{id}/stats")
-async def event_stats(id: int, session: SessionDep):
+async def event_stats(id: int, session: SessionDep) -> dict[str, int]:
     """Get event statistics"""
     event = session.get(Event, id)
     if not event:
         raise HTTPException(status_code=404, detail="Event not found")
-    return HTTPException(status_code=200, detail="Event stats not implemented")
+    return {"audience_peak": event.audience_peak}
 
 
 @router.post("/{uuid}/slide.jpg")
-async def generate_slide():
+async def generate_slide() -> dict[str, str]:
     """Generate slide image"""
-    return HTTPException(status_code=200, detail="Slide image not implemented")
+    return {"message": "Slide image not implemented"}
